@@ -52,6 +52,6 @@ public class CallService {
 
     public String callVolumeHighestWOfD(String week){
         String val=callRepository.callVolumeHighestDayOfWeek(week,PageRequest.of(0,1)).get(0);
-        return val;
+        return val.substring(0,3);
     }
 }

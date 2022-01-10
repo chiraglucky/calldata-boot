@@ -29,7 +29,7 @@ public class CallController {
 
     @GetMapping("/call/volume/day/{week}")
     public String getDayCallVolumeHighest(@PathVariable("week") String week){
-        return callService.callLongestWOfD(week);
+        return callService.callVolumeHighestWOfD(week);
     }
 
 }

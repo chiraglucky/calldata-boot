@@ -16,19 +16,19 @@ import java.util.List;
 public interface CallRepository extends JpaRepository<CallData,Long> {
 
     //Hour of the day when calls are longest
-    @Query(value="SELECT function('date_format',c.callStartTime,'%h %p') from CallData as c WHERE function('date_format',c.callStartTime,'%d %m %Y')= :date ORDER BY c.callDuration DESC")
+    @Query(value="SELECT function('date_format',c.callStartTime,'%h %p') from CallData as c WHERE function('date_format',c.callStartTime,'%d-%m-%Y')= :date ORDER BY c.callDuration DESC")
     List<String> callLongestHourOfDay(@Param("date") String date,Pageable pageable);
 
     //Hour of the day when call volume is highest
-    @Query("SELECT function('date_format',c.callStartTime,'%h %p') as hour,COUNT(c.callId) as total_call from CallData as c WHERE function('date_format',c.callStartTime,'%d %m %Y')= :date group by function('date_format',c.callStartTime,'%D %H %p') ORDER BY total_call DESC")
+    @Query("SELECT function('date_format',c.callStartTime,'%h %p') as hour,COUNT(c.callId) as total_call from CallData as c WHERE function('date_format',c.callStartTime,'%d-%m-%Y')= :date group by function('date_format',c.callStartTime,'%D %H %p') ORDER BY total_call DESC")
     List<String> callVolumeHighestHourOfDay(@Param("date") String date, Pageable pageable);
 
     //Day of the week when calls are longest
-    @Query("SELECT function('date_format',c.callStartTime,'%a') as day from CallData as c where function('date_format',c.callStartTime,'%U %Y')= :week ORDER BY c.callDuration DESC")
+    @Query("SELECT function('date_format',c.callStartTime,'%a') as day from CallData as c where function('date_format',c.callStartTime,'%U-%Y')= :week ORDER BY c.callDuration DESC")
     List<String> callLongestDayOfWeek(@Param("week") String week,Pageable pageable);
 
     //Day of the week when call volume is highest
-    @Query("SELECT function('date_format',c.callStartTime,'%a') as day,COUNT(c.callId) as total_call from CallData as c WHERE function('date_format',c.callStartTime,'%U %Y')= :week ORDER BY total_call")
+    @Query("SELECT function('date_format',c.callStartTime,'%a') as day,COUNT(c.callId) as total_call from CallData as c WHERE function('date_format',c.callStartTime,'%U-%Y')= :week group by function('date_format',c.callStartTime,'%a') ORDER BY total_call DESC ")
     List<String> callVolumeHighestDayOfWeek(@Param("week") String week, Pageable pageable);
 
 }

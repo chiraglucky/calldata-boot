@@ -34,24 +34,38 @@ public class CallService {
     }
 
     public String callVolumeHighestHOfD(String date){
-        String val=callRepository.callVolumeHighestHourOfDay(date,PageRequest.of(0,1)).get(0);
-        String h=val.substring(0,2)+"-"+getEndHour(val.substring(0,2))+val.substring(3,5);
-        return h;
+        List<String> v=callRepository.callVolumeHighestHourOfDay(date,PageRequest.of(0,1));
+        if(!v.isEmpty()) {
+            String val=v.get(0);
+            String h = val.substring(0, 2) + "-" + getEndHour(val.substring(0, 2)) + val.substring(3, 5);
+            return h;
+        }
+        return null;
     }
 
     public String callLongestHOfD(String date){
-        String val=callRepository.callLongestHourOfDay(date,PageRequest.of(0,1)).get(0);
-        String  h= val.substring(0,2)+"-"+getEndHour(val.substring(0,2))+val.substring(3,5);
-        return h;
+        List<String> v=callRepository.callLongestHourOfDay(date,PageRequest.of(0,1));
+        if(!v.isEmpty()) {
+            String val=v.get(0);
+            String h = val.substring(0, 2) + "-" + getEndHour(val.substring(0, 2)) + val.substring(3, 5);
+            return h;
+        }
+        return null;
     }
 
     public String callLongestWOfD(String week){
-        String val=callRepository.callLongestDayOfWeek(week,PageRequest.of(0,1)).get(0);
-        return val;
+        List<String> val=callRepository.callLongestDayOfWeek(week,PageRequest.of(0,1));
+        if(!val.isEmpty()) {
+            return val.get(0);
+        }
+        return null;
     }
 
     public String callVolumeHighestWOfD(String week){
-        String val=callRepository.callVolumeHighestDayOfWeek(week,PageRequest.of(0,1)).get(0);
-        return val.substring(0,3);
+        List<String> val=callRepository.callVolumeHighestDayOfWeek(week,PageRequest.of(0,1));
+        if(!val.isEmpty()) {
+            return val.get(0).substring(0,3);
+        }
+        return null;
     }
 }
